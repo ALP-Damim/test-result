@@ -2,9 +2,11 @@ package com.kt.damim.testresult.service.impl;
 
 import com.kt.damim.testresult.dto.StudentProgressDto;
 import com.kt.damim.testresult.dto.TeacherViewDto;
+import com.kt.damim.testresult.entity.Exam;
 import com.kt.damim.testresult.entity.Question;
 import com.kt.damim.testresult.entity.Submission;
 import com.kt.damim.testresult.entity.SubmissionAnswer;
+import com.kt.damim.testresult.repository.ExamRepository;
 import com.kt.damim.testresult.repository.QuestionRepository;
 import com.kt.damim.testresult.repository.SubmissionAnswerRepository;
 import com.kt.damim.testresult.repository.SubmissionRepository;
@@ -26,9 +28,19 @@ public class ProgressServiceImpl implements ProgressService {
     private final SubmissionRepository submissionRepository;
     private final SubmissionAnswerRepository submissionAnswerRepository;
     private final QuestionRepository questionRepository;
+    private final ExamRepository examRepository;
     
     @Override
     public List<StudentProgressDto> getProgress(Long examId, Long since) {
+        // 시험 상태 확인 - 출제 준비된 시험만 진행 상태 조회 가능
+        Exam exam = examRepository.findById(examId)
+            .orElseThrow(() -> new IllegalArgumentException("시험을 찾을 수 없습니다: " + examId));
+        
+        if (!exam.getIsReady()) {
+            log.warn("출제 준비되지 않은 시험의 진행 상태 조회 시도: {}", examId);
+            throw new IllegalArgumentException("출제 준비되지 않은 시험입니다.");
+        }
+        
         List<Submission> submissions = submissionRepository.findByExamId(examId);
         
         return submissions.stream()
@@ -39,6 +51,15 @@ public class ProgressServiceImpl implements ProgressService {
     
     @Override
     public TeacherViewDto getStudentDetail(Long examId, Long userId) {
+        // 시험 상태 확인 - 출제 준비된 시험만 상세 정보 조회 가능
+        Exam exam = examRepository.findById(examId)
+            .orElseThrow(() -> new IllegalArgumentException("시험을 찾을 수 없습니다: " + examId));
+        
+        if (!exam.getIsReady()) {
+            log.warn("출제 준비되지 않은 시험의 학생 상세 정보 조회 시도: {}", examId);
+            throw new IllegalArgumentException("출제 준비되지 않은 시험입니다.");
+        }
+        
         Submission submission = submissionRepository.findByExamIdAndUserId(examId, userId)
             .orElseThrow(() -> new IllegalArgumentException("학생 제출 기록을 찾을 수 없습니다: " + userId));
         

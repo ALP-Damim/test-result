@@ -28,3 +28,23 @@ GET {{baseUrl}}/api/exams/1001/progress?since=1719990000000
 
 ### 5) 교사용 상세 조회 (학생 9001)
 GET {{baseUrl}}/api/exams/1001/students/9001
+
+### 6) 출제 준비되지 않은 시험 테스트 (is_ready = false인 시험)
+# 아래 테스트는 시험 상태가 false일 때 예외가 발생하는지 확인
+# 먼저 DB에서 시험 1001의 is_ready를 false로 변경 후 테스트
+
+### 7) 출제 준비되지 않은 시험에 답안 제출 시도 (예외 발생 예상)
+POST {{baseUrl}}/api/exams/1001/answers
+Content-Type: application/json
+X-User-Id: 9001
+
+{
+  "questionId": 2001,
+  "answerText": "TCP"
+}
+
+### 8) 출제 준비되지 않은 시험 진행 상태 조회 시도 (예외 발생 예상)
+GET {{baseUrl}}/api/exams/1001/progress
+
+### 9) 출제 준비되지 않은 시험 학생 상세 조회 시도 (예외 발생 예상)
+GET {{baseUrl}}/api/exams/1001/students/9001

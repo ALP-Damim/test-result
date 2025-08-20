@@ -1,10 +1,21 @@
 -- src/test/resources/test.sql
 -- 깨끗이 초기화
 TRUNCATE TABLE submission_answers, submissions, questions, exams RESTART IDENTITY CASCADE;
+-- DROP TABLE IF EXISTS exams CASCADE;
+--
+-- CREATE TABLE exams (
+--                        exam_id     BIGSERIAL PRIMARY KEY,
+--                        class_id    BIGINT,
+--                        name        VARCHAR(255) NOT NULL,
+--                        difficulty  VARCHAR(255),
+--                        is_ready    BOOLEAN NOT NULL DEFAULT FALSE,
+--                        created_by  BIGINT,
+--                        created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+-- );
 
--- 시험 1개
-INSERT INTO exams (exam_id, class_id, name, difficulty, created_by, created_at)
-VALUES (1001, 501, 'Networking Basics Quiz', 'EASY', 8001, NOW());
+-- 시험 1개 (is_ready = true로 설정하여 출제 준비 완료 상태)
+INSERT INTO exams (exam_id, class_id, name, difficulty, is_ready, created_by, created_at)
+VALUES (1001, 501, 'Networking Basics Quiz', 'EASY', true, 8001, NOW());
 
 -- 🔸 qtype 값은 DB 제약에 맞게 사용
 --   - 옵션 A(자주 쓰는 패턴): 'MCQ' / 'SHORT'

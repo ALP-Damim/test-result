@@ -17,6 +17,14 @@ public class ProgressController {
     private final SubmissionService submissionService;
     private final ProgressService progressService;
     
+    /**
+     * 제출 답변 제출
+     * @param examId 시험 ID
+     * @param userId 사용자 ID
+     * @param req 제출 답변 요청 정보
+     * @return 제출 답변 응답 정보
+     * 
+      */ 
     @PostMapping("/{examId}/answers")
     public SubmitAnswerResponse submitAnswer(
         @PathVariable Long examId,
@@ -25,7 +33,12 @@ public class ProgressController {
     ) {
         return submissionService.submitAnswer(examId, userId, req); // ← 서비스에 userId 전달
     }
-    
+    /**
+     * 시험 진행 상태 조회
+     * @param examId 시험 ID
+     * @param since 조회 시작 시간
+     * @return 학생 진행 상태 목록
+     */
     @GetMapping("/{examId}/progress")
     public List<StudentProgressDto> getProgress(
         @PathVariable Long examId,
@@ -34,6 +47,12 @@ public class ProgressController {
         return progressService.getProgress(examId, since);
     }
     
+    /**
+     * 학생 상세 정보 조회
+     * @param examId 시험 ID
+     * @param studentId 학생 ID
+     * @return 학생 상세 정보
+     */
     @GetMapping("/{examId}/students/{studentId}")
     public TeacherViewDto getStudentDetail(
         @PathVariable Long examId,

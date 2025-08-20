@@ -2,9 +2,11 @@ package com.kt.damim.testresult.service.impl;
 
 import com.kt.damim.testresult.dto.SubmitAnswerRequest;
 import com.kt.damim.testresult.dto.SubmitAnswerResponse;
+import com.kt.damim.testresult.entity.Exam;
 import com.kt.damim.testresult.entity.Question;
 import com.kt.damim.testresult.entity.Submission;
 import com.kt.damim.testresult.entity.SubmissionAnswer;
+import com.kt.damim.testresult.repository.ExamRepository;
 import com.kt.damim.testresult.repository.QuestionRepository;
 import com.kt.damim.testresult.repository.SubmissionAnswerRepository;
 import com.kt.damim.testresult.repository.SubmissionRepository;
@@ -26,9 +28,19 @@ public class SubmissionServiceImpl implements SubmissionService {
     private final QuestionRepository questionRepository;
     private final SubmissionRepository submissionRepository;
     private final SubmissionAnswerRepository submissionAnswerRepository;
+    private final ExamRepository examRepository;
     
     @Override
     public SubmitAnswerResponse submitAnswer(Long examId, Long userId ,SubmitAnswerRequest req) {
+        // 시험 상태 확인 - 출제 준비된 시험만 답안 제출 가능
+        Exam exam = examRepository.findById(examId)
+            .orElseThrow(() -> new IllegalArgumentException("시험을 찾을 수 없습니다: " + examId));
+        
+        if (!exam.getIsReady()) {
+            log.warn("출제 준비되지 않은 시험에 답안 제출 시도: {}", examId);
+            throw new IllegalArgumentException("출제 준비되지 않은 시험입니다.");
+        }
+        
         // 문제 조회
         Question question = questionRepository.findById(req.questionId())
             .orElseThrow(() -> new IllegalArgumentException("문제를 찾을 수 없습니다: " + req.questionId()));
@@ -111,5 +123,5 @@ public class SubmissionServiceImpl implements SubmissionService {
             return null; // 모든 문제 완료
         }
         return currentPosition + 1;
-    }
+        }
 }
