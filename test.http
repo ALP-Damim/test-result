@@ -1,0 +1,30 @@
+@baseUrl = http://localhost:8080
+
+### 1) 단건 답안 제출 (학생 9001, 문항 2001) - 첫 제출
+POST {{baseUrl}}/api/exams/1001/answers
+Content-Type: application/json
+X-User-Id: 9001
+
+{
+  "questionId": 2001,
+  "answerText": "TCP"
+}
+
+### 2) 단건 답안 제출 (학생 9001, 문항 2002) - 다음 문항
+POST {{baseUrl}}/api/exams/1001/answers
+Content-Type: application/json
+X-User-Id: 9001
+
+{
+  "questionId": 2002,
+  "answerText": "4"
+}
+
+### 3) 진행 현황 조회 (전체)
+GET {{baseUrl}}/api/exams/1001/progress
+
+### 4) 진행 현황 조회 (since 지정: 1시간 전 epoch milli 예시)
+GET {{baseUrl}}/api/exams/1001/progress?since=1719990000000
+
+### 5) 교사용 상세 조회 (학생 9001)
+GET {{baseUrl}}/api/exams/1001/students/9001

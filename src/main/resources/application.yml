@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: test_result
+
+  profiles:
+    active: dev
+
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000
+      connection-timeout: 30000
+      max-lifetime: 1800000
+      data-source-properties:
+        # Azure PG ??
+        ssl: true
+        sslmode: require
+        tcpKeepAlive: true
+        reWriteBatchedInserts: true
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc.time_zone: UTC
+    show-sql: false
+
+  jackson:
+    time-zone: Asia/Seoul
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+  sql:
+    init:
+      mode: never
+
+server:
+  port: 8080
+  forward-headers-strategy: framework
+
+logging:
+  level:
+    root: INFO
+    com.kt.damim: DEBUG
