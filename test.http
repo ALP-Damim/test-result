@@ -142,3 +142,61 @@ Content-Type: application/json
   "answerText": "수정된 답안",
   "solvingTime": 180
 }
+
+### 평범한 API 테스트 (X-User-Id 헤더 없음)
+
+### Submission 생성
+POST http://localhost:8080/api/submissions
+Content-Type: application/json
+
+{
+  "examId": 1,
+  "userId": 1,
+  "answers": [
+    {
+      "questionId": 1,
+      "answerText": "정답1",
+      "solvingTime": 120
+    },
+    {
+      "questionId": 2,
+      "answerText": "정답2",
+      "solvingTime": 180
+    }
+  ]
+}
+
+### Submission 조회
+GET http://localhost:8080/api/submissions/1?userId=1
+
+### 시험별 Submission 조회
+GET http://localhost:8080/api/submissions/exam/1?userId=1
+
+### Submission 답안 제출
+POST http://localhost:8080/api/submissions/1/answers?userId=1
+Content-Type: application/json
+
+{
+  "questionId": 3,
+  "answerText": "새로운 답안",
+  "solvingTime": 150
+}
+
+### Submission 답안 수정
+PUT http://localhost:8080/api/submissions/1/answers/1?userId=1
+Content-Type: application/json
+
+{
+  "questionId": 1,
+  "answerText": "수정된 답안",
+  "solvingTime": 200
+}
+
+### Submission 답안 조회
+GET http://localhost:8080/api/submissions/1/answers/1?userId=1
+
+### Submission 답안 삭제
+DELETE http://localhost:8080/api/submissions/1/answers/1?userId=1
+
+### Submission 삭제
+DELETE http://localhost:8080/api/submissions/1?userId=1

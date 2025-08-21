@@ -343,4 +343,39 @@ public class SubmissionServiceImpl implements SubmissionService {
         }
         return SubmitAnswerResponse.next(nextPosition);
     }
+    
+    @Override
+    public void deleteSubmission(Long submissionId, Long userId) {
+        // submissionId는 examId로 간주
+        Submission submission = submissionRepository.findByExamIdAndUserId(submissionId, userId)
+            .orElseThrow(() -> new IllegalArgumentException("삭제할 submission을 찾을 수 없습니다: " + submissionId));
+        
+        // 관련된 모든 답안 삭제
+        List<SubmissionAnswer> answers = submissionAnswerRepository.findByExamIdAndUserId(submissionId, userId);
+        submissionAnswerRepository.deleteAll(answers);
+        
+        // submission 삭제
+        submissionRepository.delete(submission);
+        
+        log.info("Submission 삭제 완료: examId={}, userId={}", submissionId, userId);
+    }
+    
+    @Override
+    public void deleteSubmissionAnswer(Long submissionId, Long questionId, Long userId) {
+        // submissionId는 examId로 간주
+        Submission submission = submissionRepository.findByExamIdAndUserId(submissionId, userId)
+            .orElseThrow(() -> new IllegalArgumentException("Submission을 찾을 수 없습니다: " + submissionId));
+        
+        // 답안 조회
+        SubmissionAnswer answer = submissionAnswerRepository.findByQuestionIdAndExamIdAndUserId(questionId, submissionId, userId)
+            .orElseThrow(() -> new IllegalArgumentException("삭제할 답안을 찾을 수 없습니다."));
+        
+        // 답안 삭제
+        submissionAnswerRepository.delete(answer);
+        
+        // 총점 재계산
+        updateSubmissionScore(submission);
+        
+        log.info("Submission Answer 삭제 완료: examId={}, questionId={}, userId={}", submissionId, questionId, userId);
+    }
 }

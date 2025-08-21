@@ -16,4 +16,8 @@ public interface SubmissionService {
     SubmitAnswerResponse submitSubmissionAnswer(Long submissionId, Long userId, SubmitAnswerRequest request);
     
     SubmitAnswerResponse updateSubmissionAnswer(Long submissionId, Long questionId, Long userId, SubmitAnswerRequest request);
+    
+    void deleteSubmission(Long submissionId, Long userId);
+    
+    void deleteSubmissionAnswer(Long submissionId, Long questionId, Long userId);
 }
