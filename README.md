@@ -62,7 +62,7 @@ Content-Type: application/json
 **응답 예시:**
 ```json
 {
-  "submissionId": null,
+  "submissionId": 1,
   "success": true,
   "message": "Submission이 성공적으로 제출되었습니다.",
   "submittedAt": "2024-01-15T10:30:00"
@@ -78,7 +78,7 @@ X-User-Id: {userId}
 **응답 예시:**
 ```json
 {
-  "submissionId": null,
+  "submissionId": 1,
   "examId": 1,
   "userId": 1,
   "submittedAt": "2024-01-15T10:30:00",
@@ -284,8 +284,9 @@ http://localhost:8080/swagger-ui.html
 ### 주요 테이블
 
 #### submissions
-- exam_id (PK)
-- user_id (PK)
+- submission_id (PK, Auto Increment)
+- exam_id (FK)
+- user_id
 - submitted_at
 - total_score
 - feedback_status

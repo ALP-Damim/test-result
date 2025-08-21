@@ -5,7 +5,6 @@ import com.kt.damim.testresult.entity.Exam;
 import com.kt.damim.testresult.entity.Question;
 import com.kt.damim.testresult.entity.Submission;
 import com.kt.damim.testresult.entity.SubmissionAnswer;
-import com.kt.damim.testresult.entity.SubmissionId;
 import com.kt.damim.testresult.repository.ExamRepository;
 import com.kt.damim.testresult.repository.QuestionRepository;
 import com.kt.damim.testresult.repository.SubmissionAnswerRepository;
@@ -174,7 +173,7 @@ public class SubmissionServiceImpl implements SubmissionService {
         updateSubmissionScore(submission);
         
         return new SubmitSubmissionResponse(
-            null, // Submission은 복합키를 사용하므로 ID가 없음
+            null, // 복합키를 사용하므로 ID가 없음
             true,
             "Submission이 성공적으로 제출되었습니다.",
             LocalDateTime.ofInstant(submission.getSubmittedAt(), ZoneId.systemDefault())
@@ -183,7 +182,6 @@ public class SubmissionServiceImpl implements SubmissionService {
     
     @Override
     public GetSubmissionResponse getSubmission(Long submissionId, Long userId) {
-        // Submission은 복합키를 사용하므로 examId와 userId로 조회
         // submissionId는 examId로 간주
         Submission submission = submissionRepository.findByExamIdAndUserId(submissionId, userId)
             .orElseThrow(() -> new IllegalArgumentException("Submission을 찾을 수 없습니다: " + submissionId));
@@ -201,7 +199,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     
     @Override
     public GetAnswerResponse getAnswer(Long submissionId, Long questionId, Long userId) {
-        // submission 권한 확인 - submissionId는 examId로 간주
+        // submissionId는 examId로 간주
         Submission submission = submissionRepository.findByExamIdAndUserId(submissionId, userId)
             .orElseThrow(() -> new IllegalArgumentException("Submission을 찾을 수 없습니다: " + submissionId));
         
@@ -251,7 +249,7 @@ public class SubmissionServiceImpl implements SubmissionService {
         List<Question> totalQuestions = questionRepository.findByExamIdOrderByPosition(submission.getExamId());
         
         return new GetSubmissionResponse(
-            null, // Submission은 복합키를 사용하므로 ID가 없음
+            null, // 복합키를 사용하므로 ID가 없음
             submission.getExamId(),
             submission.getUserId(),
             LocalDateTime.ofInstant(submission.getSubmittedAt(), ZoneId.systemDefault()),

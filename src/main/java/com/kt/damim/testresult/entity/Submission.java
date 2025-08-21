@@ -10,7 +10,6 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "submissions")
-@IdClass(SubmissionId.class)
 @Getter @Setter @NoArgsConstructor
 public class Submission {
     @Id @Column(name = "exam_id")
