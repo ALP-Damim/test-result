@@ -46,6 +46,6 @@ VALUES
 ON CONFLICT (exam_id, user_id) DO NOTHING;
 
 -- 통계 확인용으로 다른 학생(9002)의 일부 오답만 1개 넣음 (PK 충돌 방지)
-INSERT INTO submission_answers (question_id, exam_id, user_id, answer_text, is_correct, score)
-VALUES (2001, 1001, 9002, 'UDP', FALSE, 0.0)
+INSERT INTO submission_answers (question_id, exam_id, user_id, answer_text, is_correct, score, solving_time)
+VALUES (2001, 1001, 9002, 'UDP', FALSE, 0.0, 45) -- 45초 걸림
 ON CONFLICT (question_id, exam_id, user_id) DO NOTHING;

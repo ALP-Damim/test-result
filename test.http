@@ -1,4 +1,5 @@
 @baseUrl = https://test-result-bzhabtakfhegbmgv.koreacentral-01.azurewebsites.net
+#@baseUrl = http://localhost:8080
 
 ### 1) 단건 답안 제출 (학생 9001, 문항 2001) - 첫 제출
 POST {{baseUrl}}/api/exams/1001/answers

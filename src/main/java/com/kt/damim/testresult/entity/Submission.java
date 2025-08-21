@@ -27,4 +27,14 @@ public class Submission {
 
     @Column(name = "feedback")
     private String feedback;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "feedback_status")
+    private FeedbackStatus feedbackStatus = FeedbackStatus.PENDING;
+    
+    @Column(name = "feedback_requested_at")
+    private Instant feedbackRequestedAt;
+    
+    @Column(name = "feedback_retry_count")
+    private Integer feedbackRetryCount = 0;
 }
