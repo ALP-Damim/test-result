@@ -52,3 +52,93 @@ GET {{baseUrl}}/api/exams/1001/progress
 
 ### 9) 출제 준비되지 않은 시험 학생 상세 조회 시도 (예외 발생 예상)
 GET {{baseUrl}}/api/exams/1001/students/9001
+
+### 기존 API 테스트
+
+### 답안 제출
+POST http://localhost:8080/api/exams/1/answers
+X-User-Id: 1
+Content-Type: application/json
+
+{
+  "questionId": 1,
+  "answerText": "정답",
+  "solvingTime": 120
+}
+
+### 시험 진행 상태 조회
+GET http://localhost:8080/api/exams/1/progress
+
+### 학생 상세 정보 조회
+GET http://localhost:8080/api/exams/1/students/1
+
+### AI 조언 요청
+POST http://localhost:8080/api/exams/1/ai/advice
+Content-Type: application/json
+
+{
+  "studentId": 1
+}
+
+### 새로 추가된 API 테스트
+
+### Submission 제출
+POST http://localhost:8080/api/exams/1/submissions
+X-User-Id: 1
+Content-Type: application/json
+
+{
+  "examId": 1,
+  "userId": 1,
+  "answers": [
+    {
+      "questionId": 1,
+      "answerText": "정답1",
+      "solvingTime": 120
+    },
+    {
+      "questionId": 2,
+      "answerText": "정답2",
+      "solvingTime": 180
+    },
+    {
+      "questionId": 3,
+      "answerText": "오답",
+      "solvingTime": 90
+    }
+  ]
+}
+
+### Submission 조회 (submissionId로)
+GET http://localhost:8080/api/exams/submissions/1
+X-User-Id: 1
+
+### 시험별 Submission 조회
+GET http://localhost:8080/api/exams/1/submissions
+X-User-Id: 1
+
+### 답안 조회
+GET http://localhost:8080/api/exams/submissions/1/answers/1
+X-User-Id: 1
+
+### Submission Answer 제출 (새로운 API)
+POST http://localhost:8080/api/exams/submissions/1/answers
+X-User-Id: 1
+Content-Type: application/json
+
+{
+  "questionId": 1,
+  "answerText": "새로운 답안",
+  "solvingTime": 150
+}
+
+### Submission Answer 수정 (새로운 API)
+PUT http://localhost:8080/api/exams/submissions/1/answers/1
+X-User-Id: 1
+Content-Type: application/json
+
+{
+  "questionId": 1,
+  "answerText": "수정된 답안",
+  "solvingTime": 180
+}

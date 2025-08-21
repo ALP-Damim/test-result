@@ -71,4 +71,81 @@ public class ProgressController {
     ) {
         return aiAdviceService.requestAIAdvice(examId, request.studentId());
     }
+    
+    /**
+     * Submission 제출
+     */
+    @Operation(summary = "Submission 제출", description = "학생이 전체 시험 답안을 제출합니다.")
+    @PostMapping("/{examId}/submissions")
+    public SubmitSubmissionResponse submitSubmission(
+        @Parameter(description = "시험 ID") @PathVariable Long examId,
+        @Parameter(description = "사용자 ID") @RequestHeader("X-User-Id") Long userId,
+        @Valid @RequestBody SubmitSubmissionRequest request
+    ) {
+        return submissionService.submitSubmission(examId, userId, request);
+    }
+    
+    /**
+     * Submission 조회
+     */
+    @Operation(summary = "Submission 조회", description = "특정 submission의 상세 정보를 조회합니다.")
+    @GetMapping("/submissions/{submissionId}")
+    public GetSubmissionResponse getSubmission(
+        @Parameter(description = "Submission ID") @PathVariable Long submissionId,
+        @Parameter(description = "사용자 ID") @RequestHeader("X-User-Id") Long userId
+    ) {
+        return submissionService.getSubmission(submissionId, userId);
+    }
+    
+    /**
+     * 특정 시험의 Submission 조회
+     */
+    @Operation(summary = "시험별 Submission 조회", description = "특정 시험의 submission을 조회합니다.")
+    @GetMapping("/{examId}/submissions")
+    public GetSubmissionResponse getSubmissionByExam(
+        @Parameter(description = "시험 ID") @PathVariable Long examId,
+        @Parameter(description = "사용자 ID") @RequestHeader("X-User-Id") Long userId
+    ) {
+        return submissionService.getSubmissionByExam(examId, userId);
+    }
+    
+    /**
+     * 답안 조회
+     */
+    @Operation(summary = "답안 조회", description = "특정 submission의 특정 문제 답안을 조회합니다.")
+    @GetMapping("/submissions/{submissionId}/answers/{questionId}")
+    public GetAnswerResponse getAnswer(
+        @Parameter(description = "Submission ID") @PathVariable Long submissionId,
+        @Parameter(description = "문제 ID") @PathVariable Long questionId,
+        @Parameter(description = "사용자 ID") @RequestHeader("X-User-Id") Long userId
+    ) {
+        return submissionService.getAnswer(submissionId, questionId, userId);
+    }
+    
+    /**
+     * Submission Answer 제출
+     */
+    @Operation(summary = "Submission Answer 제출", description = "특정 submission에 개별 답안을 제출합니다.")
+    @PostMapping("/submissions/{submissionId}/answers")
+    public SubmitAnswerResponse submitSubmissionAnswer(
+        @Parameter(description = "Submission ID") @PathVariable Long submissionId,
+        @Parameter(description = "사용자 ID") @RequestHeader("X-User-Id") Long userId,
+        @Valid @RequestBody SubmitAnswerRequest request
+    ) {
+        return submissionService.submitSubmissionAnswer(submissionId, userId, request);
+    }
+    
+    /**
+     * Submission Answer 수정
+     */
+    @Operation(summary = "Submission Answer 수정", description = "특정 submission의 개별 답안을 수정합니다.")
+    @PutMapping("/submissions/{submissionId}/answers/{questionId}")
+    public SubmitAnswerResponse updateSubmissionAnswer(
+        @Parameter(description = "Submission ID") @PathVariable Long submissionId,
+        @Parameter(description = "문제 ID") @PathVariable Long questionId,
+        @Parameter(description = "사용자 ID") @RequestHeader("X-User-Id") Long userId,
+        @Valid @RequestBody SubmitAnswerRequest request
+    ) {
+        return submissionService.updateSubmissionAnswer(submissionId, questionId, userId, request);
+    }
 }
