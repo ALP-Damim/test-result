@@ -5,7 +5,7 @@ TRUNCATE TABLE submission_answers, submissions, questions, exams RESTART IDENTIT
 --
 -- CREATE TABLE exams (
 --                        exam_id     BIGSERIAL PRIMARY KEY,
---                        class_id    BIGINT,
+--                        session_id    BIGINT,
 --                        name        VARCHAR(255) NOT NULL,
 --                        difficulty  VARCHAR(255),
 --                        is_ready    BOOLEAN NOT NULL DEFAULT FALSE,
@@ -14,7 +14,7 @@ TRUNCATE TABLE submission_answers, submissions, questions, exams RESTART IDENTIT
 -- );
 
 -- 시험 1개 (is_ready = true로 설정하여 출제 준비 완료 상태)
-INSERT INTO exams (exam_id, class_id, name, difficulty, is_ready, created_by, created_at)
+INSERT INTO exams (exam_id, session_id, name, difficulty, is_ready, created_by, created_at)
 VALUES (1001, 501, 'Networking Basics Quiz', 'EASY', true, 8001, NOW());
 
 -- 🔸 qtype 값은 DB 제약에 맞게 사용

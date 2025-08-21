@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:8080
+@baseUrl = https://test-result-bzhabtakfhegbmgv.koreacentral-01.azurewebsites.net
 
 ### 1) 단건 답안 제출 (학생 9001, 문항 2001) - 첫 제출
 POST {{baseUrl}}/api/exams/1001/answers
@@ -7,7 +7,8 @@ X-User-Id: 9001
 
 {
   "questionId": 2001,
-  "answerText": "TCP"
+  "answerText": "TCP",
+  "solvingTime": 45
 }
 
 ### 2) 단건 답안 제출 (학생 9001, 문항 2002) - 다음 문항
@@ -17,7 +18,8 @@ X-User-Id: 9001
 
 {
   "questionId": 2002,
-  "answerText": "4"
+  "answerText": "4",
+  "solvingTime": 32
 }
 
 ### 3) 진행 현황 조회 (전체)
@@ -40,7 +42,8 @@ X-User-Id: 9001
 
 {
   "questionId": 2001,
-  "answerText": "TCP"
+  "answerText": "TCP",
+  "solvingTime": 45
 }
 
 ### 8) 출제 준비되지 않은 시험 진행 상태 조회 시도 (예외 발생 예상)

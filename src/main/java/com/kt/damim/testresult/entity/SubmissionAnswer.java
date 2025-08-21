@@ -32,4 +32,7 @@ public class SubmissionAnswer {
 
     @Column(name = "score", nullable = false)
     private BigDecimal score = BigDecimal.ZERO;
+
+    @Column(name = "solving_time")
+    private Integer solvingTime; // 초 단위로 저장
 }

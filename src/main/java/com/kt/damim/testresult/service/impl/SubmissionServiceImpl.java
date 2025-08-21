@@ -61,6 +61,7 @@ public class SubmissionServiceImpl implements SubmissionService {
         answer.setAnswerText(req.answerText());
         answer.setIsCorrect(isCorrectAnswer(question, req.answerText()));
         answer.setScore(calculateScore(question, answer.getIsCorrect()));
+        answer.setSolvingTime(req.solvingTime()); // 푸는 시간 설정
         submissionAnswerRepository.save(answer);
         
         // 제출 기록 업데이트

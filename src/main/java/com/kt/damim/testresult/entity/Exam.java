@@ -16,8 +16,8 @@ public class Exam {
     @Column(name = "exam_id")
     private Long id;
 
-    @Column(name = "class_id")
-    private Long classId;
+    @Column(name = "session_id")
+    private Long sessionId;
 
     @Column(name = "name", nullable = false)
     private String name;

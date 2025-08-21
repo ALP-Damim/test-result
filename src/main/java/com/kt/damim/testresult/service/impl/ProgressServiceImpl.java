@@ -91,14 +91,15 @@ public class ProgressServiceImpl implements ProgressService {
     private TeacherViewDto.MistakeItem convertToMistakeItem(SubmissionAnswer answer) {
         Question question = questionRepository.findById(answer.getQuestionId()).orElse(null);
         if (question == null) {
-            return new TeacherViewDto.MistakeItem(0, 0L, "", answer.getAnswerText());
+            return new TeacherViewDto.MistakeItem(0, 0L, "", answer.getAnswerText(), answer.getSolvingTime());
         }
         
         return new TeacherViewDto.MistakeItem(
             question.getPosition(),
             question.getId(),
             question.getAnswerKey(),
-            answer.getAnswerText()
+            answer.getAnswerText(),
+            answer.getSolvingTime() // 푸는 시간 추가
         );
     }
 }

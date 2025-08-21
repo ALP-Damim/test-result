@@ -18,6 +18,7 @@ public record TeacherViewDto(
         int questionPosition,
         Long questionId,
         String answerKey,
-        String studentAnswer
+        String studentAnswer,
+        Integer solvingTime
     ) {}
 }
